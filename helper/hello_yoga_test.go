@@ -68,3 +68,28 @@ func TestTableHelloYoga(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkTableHelloYoga(b *testing.B) {
+	// struct slice
+	benchs := []struct {
+		name, request, expected string
+	}{
+		{
+			name:     "Yoga",
+			request:  "Yoga ",
+			expected: "Hello Yoga",
+		},
+		{
+			name:     "Saputra",
+			request:  "Saputra",
+			expected: "Hello Saputra",
+		},
+	}
+
+	for _, bench := range benchs {
+		b.Run(bench.name, func(b *testing.B) {
+			result := HelloYoga(bench.name)
+			require.Equal(b, bench.expected, result)
+		})
+	}
+}

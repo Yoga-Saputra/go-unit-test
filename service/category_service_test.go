@@ -12,7 +12,7 @@ import (
 var categoryRepository = &repository.CategoryRepositoryMock{Mock: mock.Mock{}}
 var categoryService = CategoryService{Repository: categoryRepository}
 
-func TestCategoryService_Get(t *testing.T) {
+func TestCategoryService_GetNotFound(t *testing.T) {
 	// program mock
 	categoryRepository.Mock.On("FindById", "1").Return(nil)
 
@@ -21,7 +21,7 @@ func TestCategoryService_Get(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestCategoryService_GetFound(t *testing.T) {
+func TestCategoryService_GetSuccess(t *testing.T) {
 	category := entity.Category{
 		Id:   "2",
 		Name: "Handphone",
@@ -33,4 +33,15 @@ func TestCategoryService_GetFound(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Equal(t, category.Id, result.Id)
 	assert.Equal(t, category.Name, result.Name)
+}
+
+func BenchmarkCategoryService(b *testing.B) {
+	category := entity.Category{
+		Id:   "2",
+		Name: "Handphone",
+	}
+
+	for i := 0; i < b.N; i++ {
+		categoryRepository.Mock.On("FindById", "2").Return(category)
+	}
 }

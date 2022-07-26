@@ -19,6 +19,13 @@ func TestHelloWorld(t *testing.T) {
 	fmt.Println("dieksekusi")
 }
 
+// menghitung kecepatan code
+func BenchmarkCategoryService(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Yoga Saputra")
+	}
+}
+
 func TestHelloVindra(t *testing.T) {
 	result := HelloWorld("Yoga Saputra")
 	if result != "Hello Yoga Saputra" {
@@ -67,4 +74,16 @@ func TestSubTest(t *testing.T) {
 		result := HelloWorld("Saputra")
 		require.Equal(t, "Hello Saputra", result, "Result must be 'Hello Saputra'")
 	})
+}
+
+func BenchmarkSubTest(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.Run("YogaTest", func(b *testing.B) {
+			HelloWorld("Yoga")
+		})
+
+		b.Run("SaputraTest", func(b *testing.B) {
+			HelloWorld("Saputra")
+		})
+	}
 }
