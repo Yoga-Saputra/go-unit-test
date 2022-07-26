@@ -42,3 +42,29 @@ func TestSkip(t *testing.T) {
 	result := HelloYoga("Yoga Saputra")
 	assert.Equal(t, "Hello Yoga Saputra", result, "Result must be 'Hi Yoga Saputra'")
 }
+
+// Test table
+func TestTableHelloYoga(t *testing.T) {
+	// struct slice
+	tests := []struct {
+		name, request, expected string
+	}{
+		{
+			name:     "Yoga",
+			request:  "Yoga ",
+			expected: "Hello Yoga",
+		},
+		{
+			name:     "Saputra",
+			request:  "Saputra",
+			expected: "Hello Saputra",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := HelloYoga(test.name)
+			require.Equal(t, test.expected, result)
+		})
+	}
+}
